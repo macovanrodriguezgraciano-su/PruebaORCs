@@ -3,819 +3,768 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ORCs · Vista de equipo (tabla)</title>
+<title>ORCs · Prototipo de prueba</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --g:#00A859;--gh:#008f4c;--gbg:#f0fdf4;--gb:#bbf7d0;
-  --bg:#f8fafc;--bd:#e2e8f0;--bl:#f1f5f9;--tx:#0f172a;--mu:#475569;--sub:#94a3b8;
-  --gr-bg:#dcfce7;--gr-tx:#15803d;--ye-bg:#fef9c3;--ye-tx:#a16207;--re-bg:#fee2e2;--re-tx:#b91c1c
-}
+:root{--g:#00A859;--gh:#008f4c;--gbg:#f0fdf4;--gb:#bbf7d0;--bg:#f8fafc;--bd:#e2e8f0;--bl:#f1f5f9;--tx:#0f172a;--mu:#475569;--sub:#94a3b8;--gr-bg:#dcfce7;--gr-tx:#15803d;--ye-bg:#fef9c3;--ye-tx:#a16207;--re-bg:#fee2e2;--re-tx:#b91c1c}
 html,body{height:100%}
-body{font-family:Inter,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--tx);width:100vw;height:100vh;overflow:hidden;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
+body{font-family:Inter,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--tx);height:100vh;overflow:hidden;font-size:12px;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font-family:inherit}
+.hide{display:none!important}
 
-/* Header superior */
-.top{height:52px;background:#fff;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex-shrink:0;z-index:20}
-.tl,.tr{display:flex;align-items:center;gap:16px}
-.logo{font-weight:800;font-size:22px;color:var(--g);letter-spacing:-.5px}
-.app{font-size:11px;font-weight:700;color:var(--g);background:var(--gbg);padding:2px 8px;border-radius:4px;border:1px solid var(--gb)}
+/* LOGIN */
+#login{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:var(--bg)}
+.logo-big{font-weight:800;color:var(--g);text-align:center;line-height:.95;font-size:56px;letter-spacing:-2px}
+.logo-big span{font-size:72px}
+.ptag{font-size:13px;color:var(--sub);letter-spacing:.5px;margin-top:10px}
+.lcard{margin-top:34px;width:420px;background:#fff;border-radius:16px;padding:32px;border:1px solid var(--bd);box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.lcard h2{font-size:22px;font-weight:800;margin-bottom:10px}
+.lcard p{color:var(--mu);font-size:14px;line-height:1.5;margin-bottom:20px}
+.gbtn{width:100%;height:48px;border:none;border-radius:10px;background:var(--g);color:#fff;font-weight:700;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px}
+.gbtn:hover{background:var(--gh)}
+.gbtn i{width:22px;height:22px;border-radius:50%;background:#fff;color:var(--g);display:inline-flex;align-items:center;justify-content:center;font-style:normal;font-weight:800}
+.test-box{margin-top:18px;padding:12px;border:1px dashed var(--bd);border-radius:10px;background:var(--bl);display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--mu)}
+.test-box select{height:32px;border:1px solid var(--bd);border-radius:6px;padding:0 8px;background:#fff;font-size:12px}
+.test-box label{display:flex;align-items:center;gap:6px}
+.lfoot{margin-top:16px;color:var(--sub);text-align:center;font-size:12px;line-height:1.7}
+
+/* APP */
+#app{height:100vh;display:flex;flex-direction:column}
+.top{height:52px;background:#fff;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex-shrink:0}
+.tl,.tr{display:flex;align-items:center;gap:14px}
+.logo{font-weight:800;font-size:20px;color:var(--g);letter-spacing:-.5px}
+.app-b{font-size:11px;font-weight:700;color:var(--g);background:var(--gbg);padding:2px 8px;border-radius:4px;border:1px solid var(--gb)}
 .search{width:280px;height:32px;background:var(--bl);border:1px solid var(--bd);border-radius:6px;padding:0 12px;font-size:12px;color:var(--sub);display:flex;align-items:center}
-.per{background:var(--bl);border:1px solid var(--bd);padding:4px 10px;border-radius:6px;font-size:12px;font-weight:600}
+.per{background:var(--bl);border:1px solid var(--bd);padding:4px 10px;border-radius:6px;font-weight:600}
 .av{width:32px;height:32px;border-radius:50%;background:var(--g);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
-.un{font-size:13px;font-weight:600}
+.un{font-weight:600;font-size:13px}
+.role{font-size:11px;color:var(--mu)}
+.lnk-top{background:none;border:none;color:var(--mu);cursor:pointer;font-size:12px;text-decoration:underline}
 
-.body{display:flex;flex:1;min-height:0;position:relative}
-
-/* Sidebar */
+.body{flex:1;min-height:0;display:flex}
 .side{width:180px;background:#fff;border-right:1px solid var(--bd);display:flex;flex-direction:column;padding:12px 8px;gap:4px;flex-shrink:0}
-.ni{height:38px;padding:0 10px;border-radius:6px;display:flex;align-items:center;gap:10px;color:var(--mu);font-size:12px;font-weight:500;text-decoration:none;cursor:pointer}
+.ni{height:38px;padding:0 10px;border-radius:6px;display:flex;align-items:center;color:var(--mu);font-size:12px;font-weight:500;cursor:pointer}
 .ni:hover{background:var(--bl);color:var(--tx)}
 .ni.on{background:var(--gbg);color:var(--g);font-weight:700}
-.ni svg{width:18px;height:18px;flex-shrink:0}
 
-/* Main */
 .main{flex:1;min-width:0;display:flex;flex-direction:column;position:relative}
+#teamView{flex:1;min-height:0;display:flex;flex-direction:column}
+#ph{padding:40px;color:var(--mu);font-size:13px;line-height:1.6}
 
-/* Strip principal */
-.strip{height:56px;background:#fff;border-bottom:1px solid var(--bd);padding:0 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;font-size:13px}
-.grp{display:flex;align-items:center;gap:14px;white-space:nowrap}
-.sel{position:relative;display:flex;align-items:center;gap:6px;color:var(--mu);cursor:pointer;user-select:none}
-.sel b{font-size:15px;color:var(--tx);font-weight:700}
-.sel-menu{display:none;position:absolute;top:100%;left:0;margin-top:6px;background:#fff;border:1px solid var(--bd);border-radius:8px;box-shadow:0 10px 15px -3px rgba(0,0,0,.1);width:220px;max-height:260px;overflow-y:auto;z-index:50;padding:4px 0}
-.sel-menu.show{display:block}
-.sel-item{padding:8px 12px;font-size:12px;color:var(--tx);cursor:pointer}
-.sel-item:hover{background:var(--bl);color:var(--g);font-weight:600}
-
-.met{display:flex;align-items:center;gap:14px;border-left:1px solid var(--bd);padding-left:16px}
+.hdr{padding:10px 18px;background:#fff;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;font-size:12px;flex-shrink:0}
+.grp{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.ml{color:var(--mu)}
 .mi{display:flex;align-items:center;gap:6px}
-.ml{color:var(--mu)}.mv{font-weight:700}
-.exp-box{display:flex;flex-direction:column;line-height:1.1}
-.exp-sub{font-size:9.5px;color:var(--sub);font-weight:500}
-.bar{width:120px;height:6px;background:var(--bd);border-radius:3px;overflow:hidden}
+.mi b{font-weight:700}
+.sub{display:block;font-size:9.5px;color:var(--sub)}
+.bar{width:110px;height:6px;background:var(--bd);border-radius:3px;overflow:hidden}
 .bar i{display:block;height:100%;background:var(--g)}
+.sep{border-left:1px solid var(--bd);padding-left:14px}
+select.team{height:30px;border:1px solid var(--bd);border-radius:6px;padding:0 8px;font-weight:700;font-size:13px;background:#fff;color:var(--tx)}
 
-.chip{padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;display:inline-block}
+.chip{padding:2px 7px;border-radius:4px;font-size:11px;font-weight:700;display:inline-block}
 .cg{background:var(--gr-bg);color:var(--gr-tx)}.cy{background:var(--ye-bg);color:var(--ye-tx)}.cr{background:var(--re-bg);color:var(--re-tx)}
 
-/* Toolbar */
-.tool{height:40px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bd);flex-shrink:0;background:#fff}
-.btn{height:28px;padding:0 11px;background:#fff;border:1px solid var(--bd);border-radius:6px;font:600 11.5px Inter,sans-serif;color:var(--tx);display:flex;align-items:center;cursor:pointer}
+.tools{height:44px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bd);background:#fff;flex-shrink:0}
+.leg{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--mu)}
+.acts{display:flex;gap:8px;align-items:center}
+.btn{height:30px;padding:0 12px;background:#fff;border:1px solid var(--bd);border-radius:6px;font-weight:600;font-size:12px;color:var(--tx);cursor:pointer;display:inline-flex;align-items:center}
+.btn:hover{background:var(--bl)}
 .btn.p{background:var(--g);border-color:var(--g);color:#fff}
 .btn.p:hover{background:var(--gh)}
-.acts{display:flex;gap:10px;align-items:center}
-.legend-toolbar{font-size:11px;color:var(--mu);display:flex;align-items:center;gap:8px}
+.btn.dis{opacity:.45;cursor:not-allowed}
 
-/* Banner */
-.demo-banner{background:#fffbeb;border-bottom:1px solid #fef3c7;color:#92400e;padding:6px 20px;font-size:11.5px;font-weight:500;display:none;align-items:center;gap:6px;flex-shrink:0}
+.banner{background:#fffbeb;border-bottom:1px solid #fef3c7;color:#92400e;padding:6px 18px;font-size:11.5px;flex-shrink:0}
 
-/* Tabla */
 .tc{flex:1;min-height:0;overflow:auto;background:#fff}
-table{border-collapse:separate;border-spacing:0;table-layout:fixed;width:2211px;font-size:11.5px;font-feature-settings:"tnum"}
-th,td{border-bottom:1px solid var(--bd);border-right:1px solid var(--bl);padding:4px 6px;vertical-align:middle;overflow:hidden}
-th{background:#f8fafc;color:var(--mu);font-weight:600;font-size:11px;height:38px;text-align:left;position:sticky;top:0;z-index:10;white-space:nowrap}
-
-/* Columnas fijas: N°, Resultado clave, Metodología */
-.s{position:sticky;background:#fff;z-index:5}
-th.s{z-index:15;background:#f8fafc}
-.n{left:0;text-align:center}
-.k{left:36px}
-.m-col{left:316px;box-shadow:4px 0 8px -2px rgba(15,23,42,.08)}
-
-/* Columnas móviles */
-.r{white-space:nowrap}
-.i,.m,.a{text-align:right;white-space:nowrap}
-.a{font-weight:600}
-.c{text-align:center;white-space:nowrap}
-.f{text-align:center;white-space:nowrap}
-.w{text-align:center;position:relative;font-size:11px;white-space:nowrap}
-
-tr.ob{height:34px;background:var(--gbg)}
-tr.ob .s{background:var(--gbg)}
-tr.kr{height:54px;background:#fff}
+table{border-collapse:separate;border-spacing:0;table-layout:fixed;width:2294px;font-size:11.5px;font-feature-settings:"tnum"}
+th,td{border-bottom:1px solid var(--bd);border-right:1px solid var(--bl);padding:4px 6px;vertical-align:middle;overflow:hidden;background:#fff}
+th{background:#f8fafc;color:var(--mu);font-weight:600;font-size:11px;height:40px;position:sticky;top:0;z-index:10;text-align:left;white-space:nowrap}
+th.w{text-align:center;line-height:1.2}
+th.w b{display:block;color:var(--tx)}
+th.w span{font-weight:400;font-size:10px}
+th.w em{display:block;font-style:normal;font-size:8.5px;font-weight:800;color:var(--g)}
+th.cur{background:#dcfce7;border-bottom:2px solid var(--g)}
+td.w{text-align:center;position:relative;white-space:nowrap;cursor:pointer}
+td.w:hover{background:#f8fafc}
+td.cur{background:#f0fdf4!important}
+td.fu{background:#fafafa!important;cursor:default}
+.s{position:sticky;z-index:5}
+th.s{z-index:15}
+.c0{left:0;text-align:center}
+.c1{left:40px}
+.c2{left:290px;box-shadow:4px 0 8px -4px rgba(15,23,42,.18)}
+.r{text-align:right;white-space:nowrap}
+.b{font-weight:700}
+.ctr{text-align:center}
+tr.ob td{background:var(--gbg)}
 tr.kr:hover td{background:#f8fafc}
 tr.kr:hover td.s{background:#f8fafc}
-
 .ot{font-weight:700;font-size:12px;white-space:nowrap}
-.kt{font-weight:600;font-size:11.5px;line-height:1.2;white-space:normal}
-.km{font-size:11px;color:var(--mu);font-weight:400;line-height:1.2;white-space:normal}
-.rc{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:500;white-space:nowrap;overflow:hidden}
-.am{width:22px;height:22px;border-radius:50%;background:var(--bl);border:1px solid var(--bd);color:var(--tx);font-weight:700;font-size:9.5px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-
+.kt{font-weight:600;font-size:11.5px;line-height:1.25;white-space:normal}
+.km{font-size:11px;color:var(--mu);line-height:1.25;white-space:normal}
+.pen{margin-top:2px;background:none;border:none;color:var(--g);font-size:10.5px;font-weight:600;cursor:pointer;padding:0}
+.pen.dis{color:var(--sub);cursor:not-allowed}
+.rc{display:flex;align-items:center;gap:6px;white-space:nowrap;overflow:hidden}
+.am{width:22px;height:22px;border-radius:50%;background:var(--bl);border:1px solid var(--bd);font-weight:700;font-size:9.5px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .up{color:#16a34a;font-weight:800}.dn{color:#2563eb;font-weight:800}
-
 .cw{display:flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap}
-.tk{position:relative;width:65px;height:8px;background:var(--bd);border-radius:4px;flex-shrink:0}
+.tk{position:relative;width:62px;height:8px;background:var(--bd);border-radius:4px;flex-shrink:0}
 .tk i{display:block;height:100%;background:var(--g);border-radius:4px}
-.tk u{position:absolute;top:-3px;bottom:-3px;left:22%;width:2px;background:var(--tx);border-radius:1px}
-.ct{display:flex;flex-direction:column;align-items:flex-start;line-height:1.1;min-width:38px}
+.tk u{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--tx);border-radius:1px}
+.ct{display:flex;flex-direction:column;align-items:flex-start;line-height:1.1;min-width:36px}
 .ct b{font-size:11px}.ct span{font-size:10px;font-weight:600}
 .gp{color:var(--gr-tx)}.gn{color:var(--re-tx)}
-
-th.w{line-height:1.2;text-align:center}
-th.w b{display:block;color:var(--tx)}th.w span{font-weight:400;color:var(--mu);font-size:10px}
-.cur{background:#f0fdf4}
-th.cur{background:#dcfce7;border-bottom:2px solid var(--g)}
-th.cur em{display:block;font-style:normal;font-size:8.5px;font-weight:800;color:var(--g);letter-spacing:.4px}
-.fu{background:#fafafa}
-
-.wc{height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative}
-.wc b{font-weight:500}
-
-/* Burbujas de comentario */
-.bub{position:absolute;top:2px;right:2px;height:15px;padding:0 5px;background:#cbd5e1;color:var(--tx);border-radius:7px;font-size:9px;font-weight:700;display:flex;align-items:center;gap:2px;line-height:1;z-index:3;cursor:pointer}
+.wv{font-size:11px}
+.bub{position:absolute;top:3px;right:3px;height:15px;padding:0 5px;background:#cbd5e1;color:var(--tx);border-radius:7px;font-size:9px;font-weight:700;display:flex;align-items:center;gap:2px;line-height:1;cursor:pointer;z-index:3}
 .bub.assigned{background:var(--g);color:#fff}
 .bub.done{background:#e2e8f0;color:var(--mu)}
-.bub:hover{opacity:.85}
+.cin{width:76px;height:26px;border:1px solid var(--g);border-radius:4px;text-align:center;font-size:11.5px;outline:none}
+.empty{text-align:center;padding:30px;color:var(--mu);background:#fff}
 
-.foot{height:38px;background:#fff;border-top:1px solid var(--bd);padding:0 20px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--mu);flex-shrink:0}
-.lg{display:flex;gap:16px;align-items:center}.lg span{display:flex;align-items:center;gap:6px}.lg i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.foot{height:36px;background:#fff;border-top:1px solid var(--bd);padding:0 18px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--mu);flex-shrink:0;gap:12px}
 
-/* Overlay y modal */
-.overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.3);z-index:100}
-.overlay.show{display:block}
-.modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border:1px solid var(--bd);border-radius:12px;width:480px;padding:24px;box-shadow:0 20px 25px -5px rgba(0,0,0,.1);z-index:101}
-.modal.show{display:block}
-.modal-h{font-size:16px;font-weight:700;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
-.modal-b{display:flex;flex-direction:column;gap:12px}
-.form-g{display:flex;flex-direction:column;gap:4px;font-size:12px}
-.form-g input,.form-g select{height:34px;border:1px solid var(--bd);border-radius:6px;padding:0 10px;font-size:12px;outline:none}
+/* Overlay, modal, drawer */
+#ov{display:none;position:fixed;inset:0;background:rgba(15,23,42,.3);z-index:100}
+#ov.show{display:block}
+#modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:540px;max-height:88vh;overflow:auto;background:#fff;border:1px solid var(--bd);border-radius:12px;padding:22px;z-index:101;box-shadow:0 20px 25px -5px rgba(0,0,0,.12)}
+#modal.show{display:block}
+.mh{font-size:16px;font-weight:700;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+.mh span{cursor:pointer;color:var(--mu)}
+.fl{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--mu);margin-bottom:10px}
+.fl input,.fl select{height:34px;border:1px solid var(--bd);border-radius:6px;padding:0 10px;font-size:12px;color:var(--tx);background:#fff}
+.fl textarea{border:1px solid var(--bd);border-radius:6px;padding:8px 10px;font-size:12px;color:var(--tx);resize:vertical}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.seg{display:flex;gap:12px;align-items:center;height:34px}
+.seg label{display:inline-flex;align-items:center;gap:4px;color:var(--tx);font-size:12px}
+.prev{background:var(--gbg);border:1px solid var(--gb);border-radius:8px;padding:10px;font-size:12px;line-height:1.45;margin:2px 0 12px}
+.hint{font-size:11px;color:var(--sub);font-weight:400}
+.mf{display:flex;justify-content:flex-end;gap:8px;margin-top:6px}
 
-/* Drawer de comentarios */
-.drawer{position:fixed;top:0;right:-420px;width:420px;height:100%;background:#fff;border-left:1px solid var(--bd);box-shadow:-10px 0 15px -3px rgba(0,0,0,.05);z-index:101;transition:right .25s ease;display:flex;flex-direction:column}
-.drawer.open{right:0}
-.drawer-h{padding:16px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:flex-start}
-.drawer-b{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+#drawer{position:fixed;top:0;right:-440px;width:420px;height:100%;background:#fff;border-left:1px solid var(--bd);z-index:101;display:flex;flex-direction:column;transition:right .2s ease;box-shadow:-10px 0 15px -3px rgba(0,0,0,.05)}
+#drawer.open{right:0}
+.dh{padding:16px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.dh h3{font-size:14px;font-weight:700}
+.dh p{font-size:11px;color:var(--mu);margin-top:3px}
+.dh span{cursor:pointer;color:var(--mu);font-size:16px}
+.db{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.dsec{font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.4px}
+.cc{border:1px solid var(--bd);border-radius:8px;padding:10px;display:flex;flex-direction:column;gap:6px;font-size:12px}
+.cc.done{background:var(--bl);opacity:.92}
+.cch{display:flex;justify-content:space-between;font-size:11px}
+.cch span{color:var(--sub)}
+.cct{line-height:1.35}
+.cca{display:flex;align-items:center;gap:6px;flex-wrap:wrap;border-top:1px dashed var(--bd);padding-top:6px;font-size:11px}
+.st{font-weight:600;color:var(--mu);font-size:11px}
+.st.as{color:var(--g)}
+.sel-s{font-size:11px;height:24px;border:1px solid var(--bd);border-radius:4px;background:#fff;padding:0 4px}
+.lnk{background:none;border:none;color:var(--g);font-weight:600;font-size:11px;cursor:pointer;padding:2px 4px}
+.lnk:hover{background:var(--gbg);border-radius:4px}
+.muted{color:var(--sub);font-style:italic;font-size:12px}
+.hi{font-size:12px;line-height:1.4;border-bottom:1px solid var(--bl);padding:6px 0}
+.hi span{display:block;font-size:10.5px;color:var(--sub)}
+.newc{display:flex;flex-direction:column;gap:6px}
+.newc textarea{height:60px;border:1px solid var(--bd);border-radius:6px;padding:8px;font-size:12px;resize:none;outline:none}
+.toggle-done{display:flex;justify-content:space-between;cursor:pointer;font-weight:700;color:var(--mu);font-size:12px}
 
-.comment-card{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:12px;font-size:12px;display:flex;flex-direction:column;gap:8px}
-.comment-head{display:flex;justify-content:space-between;align-items:center;font-size:11px}
-.comment-author{font-weight:700;color:var(--tx)}
-.comment-time{color:var(--sub);font-size:10.5px}
-.comment-text{color:var(--tx);line-height:1.35}
-.comment-actions{display:flex;align-items:center;justify-content:space-between;padding-top:6px;border-top:1px dashed var(--bd);font-size:11px;gap:8px}
-.comment-status{font-weight:600;color:var(--mu)}
-.comment-status.is-assigned{color:var(--g)}
-.btn-link{color:var(--g);background:none;border:none;font-weight:600;cursor:pointer;font-size:11px;padding:2px 4px;border-radius:4px}
-.btn-link:hover{background:var(--gbg)}
-.assign-select{font-size:10.5px;padding:1px 4px;border:1px solid var(--bd);border-radius:4px;outline:none;background:#fff;color:var(--tx)}
+#toast{position:fixed;top:64px;left:50%;transform:translate(-50%,-8px);background:#0f172a;color:#fff;padding:9px 14px;border-radius:8px;opacity:0;pointer-events:none;transition:.2s;z-index:200;font-size:12px}
+#toast.show{opacity:1;transform:translate(-50%,0)}
 
-.completed-section{border-top:1px solid var(--bd);padding-top:12px;margin-top:8px}
-.completed-toggle{display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:700;color:var(--mu);cursor:pointer;user-select:none;padding:4px 0}
-.completed-list{display:none;flex-direction:column;gap:8px;margin-top:8px}
-.completed-list.show{display:flex}
-.comment-card.completed{background:var(--bl);opacity:.9}
-
-/* Chat flotante: esquina inferior derecha, sobre el pie, sin tapar la tabla */
 .chat-widget{position:fixed;bottom:44px;right:14px;z-index:80;background:var(--g);color:#fff;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.15);cursor:pointer}
-.chat-widget:hover{transform:scale(1.05)}
 </style>
 </head>
 <body>
 
-<header class="top">
-  <div class="tl">
-    <span class="logo">grupo am</span>
-    <span class="app">ORCs</span>
-    <div class="search">Buscar objetivos, resultados clave o personas…</div>
+<!-- LOGIN DE PRUEBA -->
+<div id="login">
+  <div class="logo-big">GRUPO<br><span>am</span></div>
+  <div class="ptag">PLATAFORMA CORPORATIVA</div>
+  <div class="lcard">
+    <h2>Bienvenido</h2>
+    <p>Inicia sesión con tu cuenta de Google Workspace para acceder a las herramientas de Grupo AM.</p>
+    <button class="gbtn" onclick="enter()"><i>G</i>Continuar con Google</button>
+    <div class="test-box">
+      <div><b>Solo para prueba (sin cuenta):</b></div>
+      <label>Entrar como
+        <select id="role">
+          <option value="ops">Operaciones (editor de ORCs)</option>
+          <option value="user">Usuario de equipo (solo registra avance)</option>
+        </select>
+      </label>
+      <label><input type="checkbox" id="testOpen" checked> Modo prueba: edición abierta a todos</label>
+    </div>
+    <div style="text-align:center;color:var(--sub);font-size:11px;margin-top:14px">versión beta</div>
   </div>
-  <div class="tr">
-    <div class="per">Q4 2026 ▾</div>
-    <div class="tr" style="gap:8px">
-      <div class="av">M</div>
-      <span class="un">Marco</span>
-    </div>
-  </div>
-</header>
-
-<div class="body">
-  <aside class="side">
-    <a class="ni on" href="#"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg><span>ORCs</span></a>
-    <a class="ni" href="#"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg><span>ORCs empresariales</span></a>
-    <a class="ni" href="#"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg><span>Equipos</span></a>
-    <a class="ni" href="#"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg><span>Revisión de cumplimiento</span></a>
-  </aside>
-
-  <main class="main">
-    <section class="strip">
-      <div class="grp">
-        <div class="sel" id="teamSelectBtn">
-          Equipo: <b id="teamName">Comercial</b> ▾
-          <div class="sel-menu" id="teamMenu">
-            <div class="sel-item" data-team="AMDEV" data-leader="Carlos Ruiz">AMDEV</div>
-            <div class="sel-item" data-team="Capital Humano" data-leader="Sofia López">Capital Humano</div>
-            <div class="sel-item" data-team="Circulación" data-leader="Pedro Gómez">Circulación</div>
-            <div class="sel-item" data-team="Comercial" data-leader="Ana Torres">Comercial</div>
-            <div class="sel-item" data-team="Contabilidad y Cobranza" data-leader="Laura Ramos">Contabilidad y Cobranza</div>
-            <div class="sel-item" data-team="Mercadotecnia" data-leader="Lucía Méndez">Mercadotecnia</div>
-            <div class="sel-item" data-team="Operaciones" data-leader="Fátima Zúñiga">Operaciones</div>
-            <div class="sel-item" data-team="Paquetería" data-leader="Raúl Silva">Paquetería</div>
-            <div class="sel-item" data-team="Publicidad" data-leader="Edith Sánchez">Publicidad</div>
-            <div class="sel-item" data-team="Redacción" data-leader="Jorge Morales">Redacción</div>
-            <div class="sel-item" data-team="Sistemas" data-leader="David Castro">Sistemas</div>
-            <div class="sel-item" data-team="Suscripciones" data-leader="Elena Vega">Suscripciones</div>
-          </div>
-        </div>
-
-        <div class="met">
-          <div class="mi"><span class="ml">Líder:</span><span class="mv" id="teamLeader">Ana Torres</span></div>
-          <div class="mi"><span class="ml">Avance del equipo:</span><span class="mv">29%</span></div>
-          <div class="mi">
-            <div class="exp-box">
-              <div><span class="ml">Esperado hoy:</span> <span class="mv">22%</span></div>
-              <span class="exp-sub">Expectativa 70% = 70% del tiempo transcurrido (31%)</span>
-            </div>
-          </div>
-          <div class="mi"><span class="ml">Desviación:</span><span class="chip cg">+7 pp</span></div>
-          <div class="mi"><span class="ml">Pronóstico de cierre:</span><span class="chip cg">75%</span></div>
-        </div>
-      </div>
-
-      <div class="grp">
-        <span class="ml">Quedan 64 días · 31% transcurrido · S4/13</span>
-        <div class="bar"><i style="width:31%"></i></div>
-        <span class="ml" style="border-left:1px solid var(--bd);padding-left:14px">Última actualización: <b style="color:var(--tx)">27 oct</b></span>
-      </div>
-    </section>
-
-    <section class="tool">
-      <div class="acts">
-        <div class="legend-toolbar">
-          <span style="font-weight:600">Leyenda:</span>
-          <span class="chip cr" style="font-size:10px;padding:1px 5px">Rojo &lt; 60%</span>
-          <span class="chip cy" style="font-size:10px;padding:1px 5px">Amarillo 60–69%</span>
-          <span class="chip cg" style="font-size:10px;padding:1px 5px">Verde ≥ 70%</span>
-        </div>
-      </div>
-      <div class="acts">
-        <div class="btn">Exportar a Excel</div>
-        <div class="btn p" id="btnRegister">+ Registrar avance</div>
-      </div>
-    </section>
-
-    <div class="demo-banner" id="demoBanner">
-      ⚠️ <b>Datos de prueba:</b>&nbsp;solo Comercial tiene datos cargados.
-    </div>
-
-    <div class="tc">
-      <table>
-        <colgroup>
-          <col style="width:36px">
-          <col style="width:280px">
-          <col style="width:200px">
-          <col style="width:150px">
-          <col style="width:80px">
-          <col style="width:80px">
-          <col style="width:80px">
-          <col style="width:120px">
-          <col style="width:80px">
-          <col style="width:85px"><col style="width:85px"><col style="width:85px"><col style="width:85px"><col style="width:85px"><col style="width:85px"><col style="width:85px"><col style="width:85px"><col style="width:85px"><col style="width:85px"><col style="width:85px"><col style="width:85px"><col style="width:85px">
-        </colgroup>
-        <thead>
-          <tr>
-            <th class="s n">N°</th>
-            <th class="s k">Resultado clave</th>
-            <th class="s m-col">Metodología de medición</th>
-            <th class="r">Responsable</th>
-            <th class="i">Inicio</th>
-            <th class="m">Meta</th>
-            <th class="a">Actual</th>
-            <th class="c">Cumplimiento</th>
-            <th class="f">Confianza</th>
-            <th class="w"><b>S1</b><span>6 oct</span></th>
-            <th class="w"><b>S2</b><span>13 oct</span></th>
-            <th class="w"><b>S3</b><span>20 oct</span></th>
-            <th class="w cur"><b>S4</b><span>27 oct</span><em>ACTUAL</em></th>
-            <th class="w"><b>S5</b><span>3 nov</span></th>
-            <th class="w"><b>S6</b><span>10 nov</span></th>
-            <th class="w"><b>S7</b><span>17 nov</span></th>
-            <th class="w"><b>S8</b><span>24 nov</span></th>
-            <th class="w"><b>S9</b><span>1 dic</span></th>
-            <th class="w"><b>S10</b><span>8 dic</span></th>
-            <th class="w"><b>S11</b><span>15 dic</span></th>
-            <th class="w"><b>S12</b><span>22 dic</span></th>
-            <th class="w"><b>S13</b><span>29 dic</span></th>
-          </tr>
-        </thead>
-        <tbody>
-
-          <!-- OBJETIVO 1 -->
-          <tr class="ob">
-            <td class="s n"><b>1</b></td>
-            <td class="s k" colspan="2"><div class="ot">Superar las metas comerciales del trimestre</div></td>
-            <td class="r"></td>
-            <td class="i"></td><td class="m"></td><td class="a"></td>
-            <td class="c"><b>27%</b></td>
-            <td class="f"><span class="chip cy">60%</span></td>
-            <td colspan="13"></td>
-          </tr>
-
-          <tr class="kr" id="kr-1-1">
-            <td class="s n">1.1</td>
-            <td class="s k"><div class="kt">Incrementar 20% la facturación vs Q3</div></td>
-            <td class="s m-col"><div class="km">Venta facturada Q4 ÷ venta facturada Q3</div></td>
-            <td class="r"><div class="rc"><span class="am">AT</span>Ana Torres</div></td>
-            <td class="i">$200,000</td>
-            <td class="m">$240,000 <span class="up">↑</span></td>
-            <td class="a">$226,000</td>
-            <td class="c"><div class="cw"><div class="tk" title="Esperado hoy: 22%"><u></u><i style="width:65%"></i></div><div class="ct"><b>65%</b><span class="gp">+43 pp</span></div></div></td>
-            <td class="f"><span class="chip cg">100%</span></td>
-            <td class="w"><div class="wc"><b>$204,000</b></div></td>
-            <td class="w">
-              <div class="wc">
-                <span class="bub" id="bub-1-1-s3" onclick="openComments('1.1', 'S3 (20 oct)', '1-1-s3')" title="Comentarios"><span class="cnt">✓</span></span>
-                <b>$211,000</b>
-              </div>
-            </td>
-            <td class="w"><div class="wc"><b>$219,000</b></div></td>
-            <td class="w cur">
-              <div class="wc">
-                <span class="bub assigned" id="bub-1-1-s4" onclick="openComments('1.1', 'S4 (27 oct)', '1-1-s4')" title="Comentarios abiertos"><span class="cnt">2</span></span>
-                <b>$226,000</b>
-              </div>
-            </td>
-            <td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td>
-          </tr>
-
-          <tr class="kr" id="kr-1-2">
-            <td class="s n">1.2</td>
-            <td class="s k"><div class="kt">Cumplir 110% de la cuota de agencias</div></td>
-            <td class="s m-col"><div class="km">Facturado ÷ cuota proyectada del trimestre</div></td>
-            <td class="r"><div class="rc"><span class="am">AT</span>Ana Torres</div></td>
-            <td class="i">0%</td>
-            <td class="m">110% <span class="up">↑</span></td>
-            <td class="a">20%</td>
-            <td class="c"><div class="cw"><div class="tk" title="Esperado hoy: 22%"><u></u><i style="width:18%"></i></div><div class="ct"><b>18%</b><span class="gn">−4 pp</span></div></div></td>
-            <td class="f"><span class="chip cr">58%</span></td>
-            <td class="w"><div class="wc"><b>5%</b></div></td>
-            <td class="w"><div class="wc"><b>9%</b></div></td>
-            <td class="w"><div class="wc"><b>15%</b></div></td>
-            <td class="w cur"><div class="wc"><b>20%</b></div></td>
-            <td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td>
-          </tr>
-
-          <tr class="kr" id="kr-1-3">
-            <td class="s n">1.3</td>
-            <td class="s k"><div class="kt">Recuperar 24 clientes inactivos</div></td>
-            <td class="s m-col"><div class="km">Clientes con compra comprobada en CRM</div></td>
-            <td class="r"><div class="rc"><span class="am">LR</span>Luis Ramos</div></td>
-            <td class="i">0</td>
-            <td class="m">24 <span class="up">↑</span></td>
-            <td class="a">6</td>
-            <td class="c"><div class="cw"><div class="tk" title="Esperado hoy: 22%"><u></u><i style="width:25%"></i></div><div class="ct"><b>25%</b><span class="gp">+3 pp</span></div></div></td>
-            <td class="f"><span class="chip cg">81%</span></td>
-            <td class="w"><div class="wc"><b>1</b></div></td>
-            <td class="w"><div class="wc"><b>2</b></div></td>
-            <td class="w"><div class="wc"><b>4</b></div></td>
-            <td class="w cur"><div class="wc"><b>6</b></div></td>
-            <td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td>
-          </tr>
-
-          <tr class="kr" id="kr-1-4">
-            <td class="s n">1.4</td>
-            <td class="s k"><div class="kt">Entregar el plan operativo 2027 a Dirección</div></td>
-            <td class="s m-col"><div class="km">Hito: 1 cuando se entrega y se autoriza</div></td>
-            <td class="r"><div class="rc"><span class="am">MS</span>Marta Silva</div></td>
-            <td class="i">0</td>
-            <td class="m">1 <span class="up">↑</span></td>
-            <td class="a">0</td>
-            <td class="c"><div class="cw"><div class="tk" title="Esperado hoy: 22%"><u></u><i style="width:0%"></i></div><div class="ct"><b>0%</b><span class="gn">−22 pp</span></div></div></td>
-            <td class="f"><span class="chip cr">0%</span></td>
-            <td class="w"><div class="wc"><b>0</b></div></td>
-            <td class="w"><div class="wc"><b>0</b></div></td>
-            <td class="w"><div class="wc"><b>0</b></div></td>
-            <td class="w cur">
-              <div class="wc">
-                <span class="bub" id="bub-1-4-s4" onclick="openComments('1.4', 'S4 (27 oct)', '1-4-s4')" title="Comentarios abiertos"><span class="cnt">1</span></span>
-                <b>0</b>
-              </div>
-            </td>
-            <td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td>
-          </tr>
-
-          <!-- OBJETIVO 2 -->
-          <tr class="ob">
-            <td class="s n"><b>2</b></td>
-            <td class="s k" colspan="2"><div class="ot">Mejorar el flujo de efectivo</div></td>
-            <td class="r"></td>
-            <td class="i"></td><td class="m"></td><td class="a"></td>
-            <td class="c"><b>26%</b></td>
-            <td class="f"><span class="chip cg">84%</span></td>
-            <td colspan="13"></td>
-          </tr>
-
-          <tr class="kr" id="kr-2-1">
-            <td class="s n">2.1</td>
-            <td class="s k"><div class="kt">Reducir la cartera vencida a $1.2M</div></td>
-            <td class="s m-col"><div class="km">Cartera vencida &gt; 90 días al cierre</div></td>
-            <td class="r"><div class="rc"><span class="am">DH</span>Diego Hernández</div></td>
-            <td class="i">$1,800,000</td>
-            <td class="m">$1,200,000 <span class="dn">↓</span></td>
-            <td class="a">$1,680,000</td>
-            <td class="c"><div class="cw"><div class="tk" title="Esperado hoy: 22%"><u></u><i style="width:20%"></i></div><div class="ct"><b>20%</b><span class="gn">−2 pp</span></div></div></td>
-            <td class="f"><span class="chip cy">65%</span></td>
-            <td class="w"><div class="wc"><b>$1,790,000</b></div></td>
-            <td class="w"><div class="wc"><b>$1,760,000</b></div></td>
-            <td class="w"><div class="wc"><b>$1,720,000</b></div></td>
-            <td class="w cur"><div class="wc"><b>$1,680,000</b></div></td>
-            <td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td>
-          </tr>
-
-          <tr class="kr" id="kr-2-2">
-            <td class="s n">2.2</td>
-            <td class="s k"><div class="kt">Reducir de 40 a 10 las incidencias de facturación</div></td>
-            <td class="s m-col"><div class="km">Incidencias registradas en sistema</div></td>
-            <td class="r"><div class="rc"><span class="am">DH</span>Diego Hernández</div></td>
-            <td class="i">40</td>
-            <td class="m">10 <span class="dn">↓</span></td>
-            <td class="a">31</td>
-            <td class="c"><div class="cw"><div class="tk" title="Esperado hoy: 22%"><u></u><i style="width:30%"></i></div><div class="ct"><b>30%</b><span class="gp">+8 pp</span></div></div></td>
-            <td class="f"><span class="chip cg">97%</span></td>
-            <td class="w"><div class="wc"><b>38</b></div></td>
-            <td class="w"><div class="wc"><b>35</b></div></td>
-            <td class="w"><div class="wc"><b>33</b></div></td>
-            <td class="w cur"><div class="wc"><b>31</b></div></td>
-            <td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td>
-          </tr>
-
-          <tr class="kr" id="kr-2-3">
-            <td class="s n">2.3</td>
-            <td class="s k"><div class="kt">Subir la cobranza oportuna de 62% a 80%</div></td>
-            <td class="s m-col"><div class="km">Cobros a tiempo ÷ cobros programados</div></td>
-            <td class="r"><div class="rc"><span class="am">LR</span>Luis Ramos</div></td>
-            <td class="i">62%</td>
-            <td class="m">80% <span class="up">↑</span></td>
-            <td class="a">67%</td>
-            <td class="c"><div class="cw"><div class="tk" title="Esperado hoy: 22%"><u></u><i style="width:28%"></i></div><div class="ct"><b>28%</b><span class="gp">+6 pp</span></div></div></td>
-            <td class="f"><span class="chip cg">90%</span></td>
-            <td class="w"><div class="wc"><b>63%</b></div></td>
-            <td class="w"><div class="wc"><b>64%</b></div></td>
-            <td class="w"><div class="wc"><b>66%</b></div></td>
-            <td class="w cur"><div class="wc"><b>67%</b></div></td>
-            <td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td>
-          </tr>
-
-          <!-- OBJETIVO 3 -->
-          <tr class="ob">
-            <td class="s n"><b>3</b></td>
-            <td class="s k" colspan="2"><div class="ot">Fortalecer la retención de clientes</div></td>
-            <td class="r"></td>
-            <td class="i"></td><td class="m"></td><td class="a"></td>
-            <td class="c"><b>33%</b></td>
-            <td class="f"><span class="chip cg">87%</span></td>
-            <td colspan="13"></td>
-          </tr>
-
-          <tr class="kr" id="kr-3-1">
-            <td class="s n">3.1</td>
-            <td class="s k"><div class="kt">Reducir la cancelación de contratos de 12% a 8%</div></td>
-            <td class="s m-col"><div class="km">Contratos cancelados ÷ contratos activos</div></td>
-            <td class="r"><div class="rc"><span class="am">LR</span>Luis Ramos</div></td>
-            <td class="i">12%</td>
-            <td class="m">8% <span class="dn">↓</span></td>
-            <td class="a">10%</td>
-            <td class="c"><div class="cw"><div class="tk" title="Esperado hoy: 22%"><u></u><i style="width:50%"></i></div><div class="ct"><b>50%</b><span class="gp">+28 pp</span></div></div></td>
-            <td class="f"><span class="chip cg">100%</span></td>
-            <td class="w"><div class="wc"><b>12%</b></div></td>
-            <td class="w"><div class="wc"><b>11%</b></div></td>
-            <td class="w"><div class="wc"><b>10.5%</b></div></td>
-            <td class="w cur"><div class="wc"><b>10%</b></div></td>
-            <td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td>
-          </tr>
-
-          <tr class="kr" id="kr-3-2">
-            <td class="s n">3.2</td>
-            <td class="s k"><div class="kt">Lograr 90 renovaciones anticipadas</div></td>
-            <td class="s m-col"><div class="km">Renovaciones firmadas antes de vencer</div></td>
-            <td class="r"><div class="rc"><span class="am">MS</span>Marta Silva</div></td>
-            <td class="i">0</td>
-            <td class="m">90 <span class="up">↑</span></td>
-            <td class="a">18</td>
-            <td class="c"><div class="cw"><div class="tk" title="Esperado hoy: 22%"><u></u><i style="width:20%"></i></div><div class="ct"><b>20%</b><span class="gn">−2 pp</span></div></div></td>
-            <td class="f"><span class="chip cy">65%</span></td>
-            <td class="w"><div class="wc"><b>3</b></div></td>
-            <td class="w"><div class="wc"><b>8</b></div></td>
-            <td class="w"><div class="wc"><b>13</b></div></td>
-            <td class="w cur"><div class="wc"><b>18</b></div></td>
-            <td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td>
-          </tr>
-
-          <tr class="kr" id="kr-3-3">
-            <td class="s n">3.3</td>
-            <td class="s k"><div class="kt">Aplicar la encuesta de satisfacción al 100% de cuentas clave</div></td>
-            <td class="s m-col"><div class="km">Encuestas aplicadas ÷ cuentas clave</div></td>
-            <td class="r"><div class="rc"><span class="am">AT</span>Ana Torres</div></td>
-            <td class="i">0%</td>
-            <td class="m">100% <span class="up">↑</span></td>
-            <td class="a">30%</td>
-            <td class="c"><div class="cw"><div class="tk" title="Esperado hoy: 22%"><u></u><i style="width:30%"></i></div><div class="ct"><b>30%</b><span class="gp">+8 pp</span></div></div></td>
-            <td class="f"><span class="chip cg">97%</span></td>
-            <td class="w"><div class="wc"><b>0%</b></div></td>
-            <td class="w"><div class="wc"><b>10%</b></div></td>
-            <td class="w"><div class="wc"><b>20%</b></div></td>
-            <td class="w cur"><div class="wc"><b>30%</b></div></td>
-            <td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td><td class="w fu"></td>
-          </tr>
-
-        </tbody>
-      </table>
-    </div>
-
-    <footer class="foot">
-      <div class="lg">
-        <b style="color:var(--tx)">Nivel de confianza:</b>
-        <span><i style="background:var(--gr-tx)"></i>Verde: 70% o más</span>
-        <span><i style="background:var(--ye-tx)"></i>Amarillo: 60% a 69%</span>
-        <span><i style="background:var(--re-tx)"></i>Rojo: menos de 60%</span>
-      </div>
-      <div>Línea de referencia en la barra: 22% esperado hoy · Cumplimiento = (Actual − Inicio) ÷ (Meta − Inicio) · Confianza = proyección de cierre frente a la meta (automática)</div>
-    </footer>
-  </main>
+  <div class="lfoot">ORCs · Costos · más próximamente<br>Uso interno exclusivo para colaboradores de Grupo AM.</div>
 </div>
 
-<!-- Modal Registrar Avance -->
-<div class="overlay" id="overlay" onclick="closeAll()"></div>
+<!-- APLICACIÓN -->
+<div id="app" class="hide">
+  <header class="top">
+    <div class="tl">
+      <span class="logo">grupo am</span>
+      <span class="app-b">ORCs</span>
+      <div class="search">Buscar objetivos, resultados clave o personas…</div>
+    </div>
+    <div class="tr">
+      <div class="per">Q4 2026 ▾</div>
+      <div class="av" id="userAv">M</div>
+      <div><div class="un" id="userName">Marco</div><div class="role" id="userRole"></div></div>
+      <button class="lnk-top" onclick="logout()">Salir</button>
+    </div>
+  </header>
 
-<div class="modal" id="modalRegister">
-  <div class="modal-h">
-    <span>Registrar avance de ORC</span>
-    <span style="cursor:pointer;color:var(--mu)" onclick="closeAll()">✕</span>
-  </div>
-  <div class="modal-b">
-    <div class="form-g">
-      <label>Resultado clave</label>
-      <select>
-        <option>1.1 Incrementar 20% la facturación vs Q3</option>
-        <option>1.2 Cumplir 110% de la cuota de agencias</option>
-        <option>1.3 Recuperar 24 clientes inactivos</option>
-        <option>1.4 Entregar el plan operativo 2027 a Dirección</option>
-      </select>
-    </div>
-    <div class="form-g">
-      <label>Semana de registro</label>
-      <input type="text" value="S4 - 27 oct 2026" readonly style="background:var(--bl)">
-    </div>
-    <div class="form-g">
-      <label>Nuevo valor actual</label>
-      <input type="text" placeholder="Ingrese el nuevo valor">
-    </div>
-    <div class="form-g">
-      <label>Comentario / notas de avance</label>
-      <input type="text" placeholder="Comentario opcional">
-    </div>
-    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px">
-      <button class="btn" onclick="closeAll()">Cancelar</button>
-      <button class="btn p" onclick="closeAll()">Guardar registro</button>
-    </div>
+  <div class="body">
+    <aside class="side">
+      <a class="ni on" data-v="orcs" onclick="view('orcs')">ORCs</a>
+      <a class="ni" data-v="emp" onclick="view('emp')">ORCs empresariales</a>
+      <a class="ni" data-v="eq" onclick="view('eq')">Equipos</a>
+      <a class="ni" data-v="rev" onclick="view('rev')">Revisión de cumplimiento</a>
+    </aside>
+
+    <main class="main">
+      <div id="ph" class="hide"></div>
+
+      <div id="teamView">
+        <section class="hdr" id="hdr"></section>
+        <section class="tools" id="tools"></section>
+        <div class="banner hide" id="banner"></div>
+        <div class="tc"><table id="tbl"></table></div>
+        <footer class="foot">
+          <div><b style="color:var(--tx)">Confianza:</b> verde 70% o más · amarillo 60–69% · rojo menos de 60%</div>
+          <div>Cumplimiento = (Actual − Inicio) ÷ (Meta − Inicio), tope 100% · Confianza = cumplimiento proyectado al cierre con el ritmo actual (avance × 13 ÷ semanas transcurridas) · Línea negra = esperado hoy</div>
+        </footer>
+      </div>
+    </main>
   </div>
 </div>
 
-<!-- Drawer de comentarios -->
-<div class="drawer" id="drawerComments">
-  <div class="drawer-h">
+<!-- MODAL -->
+<div id="ov" onclick="closeAll()"></div>
+<div id="modal">
+  <div class="mh"><span id="mTitle"></span><span onclick="closeAll()">✕</span></div>
+  <div id="mBody"></div>
+</div>
+
+<!-- DRAWER DE COMENTARIOS E HISTORIAL -->
+<div id="drawer">
+  <div class="dh">
+    <div><h3 id="dTitle"></h3><p id="dSub"></p></div>
+    <span onclick="closeAll()">✕</span>
+  </div>
+  <div class="db">
+    <div class="dsec">Comentarios abiertos</div>
+    <div id="dOpen" style="display:flex;flex-direction:column;gap:10px"></div>
+    <div class="newc">
+      <textarea id="newComment" placeholder="Escribir comentario… usa @ para mencionar a alguien"></textarea>
+      <div class="acts" style="justify-content:flex-end"><button class="btn p" onclick="postComment()">Comentar</button></div>
+    </div>
     <div>
-      <div id="drawerKrTitle" style="font-size:14px;font-weight:700;color:var(--tx)">Comentarios</div>
-      <div id="drawerWeekTitle" style="font-size:11px;color:var(--mu);margin-top:2px">Semana</div>
+      <div class="toggle-done" onclick="toggleDone()"><span id="dDoneTitle">Completados (0)</span><span id="dArrow">▼</span></div>
+      <div id="dDone" class="hide" style="display:flex;flex-direction:column;gap:10px;margin-top:8px"></div>
     </div>
-    <span style="cursor:pointer;color:var(--mu);font-size:16px" onclick="closeAll()">✕</span>
-  </div>
-
-  <div class="drawer-b">
-    <div id="openCommentsList" style="display:flex;flex-direction:column;gap:10px"></div>
-
-    <div style="margin-top:8px;display:flex;flex-direction:column;gap:6px">
-      <textarea id="newCommentText" placeholder="Escribir comentario... Usa @ para mencionar" style="width:100%;height:60px;border:1px solid var(--bd);border-radius:6px;padding:8px;font-size:12px;font-family:inherit;outline:none;resize:none"></textarea>
-      <div style="display:flex;justify-content:flex-end">
-        <button class="btn p" onclick="postNewComment()">Comentar</button>
-      </div>
-    </div>
-
-    <div class="completed-section">
-      <div class="completed-toggle" onclick="toggleCompleted()">
-        <span id="completedHeaderTitle">Completados (0)</span>
-        <span id="completedArrow">▼</span>
-      </div>
-      <div class="completed-list" id="completedCommentsList"></div>
-    </div>
+    <div class="dsec">Historial de este resultado clave</div>
+    <div id="dHist"></div>
   </div>
 </div>
 
-<div class="chat-widget" title="Asistente Grupo AM">
-  <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
-</div>
+<div id="toast"></div>
+<div class="chat-widget" title="Asistente Grupo AM"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg></div>
 
 <script>
-// Usuario que realiza las acciones en esta prueba
-const CURRENT_USER = 'Marco';
-// Hora fija para que la prueba sea consistente
+/* ===== CONFIGURACIÓN Y ESTADO ===== */
+const CUR = 4;          // semana actual (S4)
+const TOTAL = 13;       // semanas del trimestre
+const ESP_PCT = 0.7;    // expectativa: 70% del tiempo transcurrido
 const DEMO_NOW = '28 oct, 13:05';
-const ASSIGNABLE = ['Ana Torres', 'Luis Ramos', 'Marta Silva', 'Diego Hernández', 'Marco'];
+const WEEK_DATES = ['6 oct','13 oct','20 oct','27 oct','3 nov','10 nov','17 nov','24 nov','1 dic','8 dic','15 dic','22 dic','29 dic'];
+const PEOPLE = ['Ana Torres','Luis Ramos','Marta Silva','Diego Hernández','Fátima Zúñiga','Marco'];
+const ICON = '<svg viewBox="0 0 24 24" width="9" height="9" fill="currentColor"><path d="M4 3h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H10l-5 4v-4H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/></svg>';
 
-// Datos de prueba de comentarios por celda
-const commentsData = {
-  '1-1-s3': {
-    open: [],
-    completed: [
-      { id: 90, author: 'Ana Torres', time: '20 oct, 17:40', text: 'Confirmar facturas de Q3 con cliente de cuenta principal.', completedBy: 'Luis Ramos', completedAt: '22 oct, 11:10' }
-    ]
-  },
-  '1-1-s4': {
-    open: [
-      { id: 101, author: 'Ana Torres', time: '27 oct, 10:30', text: 'Se validaron las facturas pendientes con clientes clave para el cierre de S4.', assignedTo: 'Ana Torres' },
-      { id: 102, author: 'Marco', time: '27 oct, 12:15', text: '@Luis Ramos ¿ya cerraste la aclaración de saldo de agencias?', assignedTo: null }
-    ],
-    completed: []
-  },
-  '1-4-s4': {
-    open: [
-      { id: 201, author: 'Marta Silva', time: '25 oct, 09:00', text: 'Pendiente de revisión del plan de inversión con Dirección General.', assignedTo: null }
-    ],
-    completed: []
-  }
+let ROLE = 'ops', TEST_OPEN = true, USER = 'Fátima Zúñiga', team = 'Comercial', DRAW = null, NEXT_ID = 500;
+
+function rc(id, title, method, owner, unit, ini, meta, weeks) {
+  return { id, title, method, owner, unit, inicio: ini, meta,
+           weeks: [...weeks, ...Array(TOTAL - weeks.length).fill(null)] };
+}
+
+const SEED = [
+  { title: 'Superar las metas comerciales del trimestre', rcs: [
+    rc('1.1', 'Incrementar 25% la facturación vs Q3', 'Venta facturada Q4 ÷ venta facturada Q3', 'Ana Torres', '$', 300000, 375000, [312000, 318000, 325000, 332000]),
+    rc('1.2', 'Cumplir 110% de la cuota de agencias', 'Facturado ÷ cuota proyectada del trimestre', 'Ana Torres', '%', 0, 110, [4, 8, 11, 14]),
+    rc('1.3', 'Recuperar 30 clientes inactivos', 'Clientes con compra comprobada en CRM', 'Luis Ramos', 'num', 0, 30, [2, 5, 7, 9]),
+    rc('1.4', 'Entregar el plan operativo 2027 a Dirección', 'Hito: 1 cuando se entrega y se autoriza', 'Marta Silva', 'num', 0, 1, [0, 0, 0, 0])
+  ]},
+  { title: 'Mejorar el flujo de efectivo', rcs: [
+    rc('2.1', 'Reducir la cartera vencida a $1.5M', 'Cartera vencida > 90 días al cierre', 'Diego Hernández', '$', 2100000, 1500000, [2050000, 1990000, 1930000, 1880000]),
+    rc('2.2', 'Reducir de 60 a 15 las incidencias de facturación', 'Incidencias registradas en sistema', 'Diego Hernández', 'num', 60, 15, [58, 57, 55, 54]),
+    rc('2.3', 'Subir la cobranza oportuna de 70% a 90%', 'Cobros a tiempo ÷ cobros programados', 'Luis Ramos', '%', 70, 90, [71, 72, 73, 74])
+  ]},
+  { title: 'Fortalecer la retención de clientes', rcs: [
+    rc('3.1', 'Reducir la cancelación de contratos de 9% a 6%', 'Contratos cancelados ÷ contratos activos', 'Luis Ramos', '%', 9, 6, [8.8, 8.6, 8.5, 8.2]),
+    rc('3.2', 'Lograr 60 renovaciones anticipadas', 'Renovaciones firmadas antes de vencer', 'Marta Silva', 'num', 0, 60, [4, 9, 14, 19]),
+    rc('3.3', 'Aplicar la encuesta de satisfacción al 100% de cuentas clave', 'Encuestas aplicadas ÷ cuentas clave', 'Ana Torres', '%', 0, 100, [5, 12, 18, 25])
+  ]}
+];
+
+const TEAMS = {
+  'AMDEV': { leader: 'Carlos Ruiz', objectives: [] },
+  'Capital Humano': { leader: 'Sofia López', objectives: [] },
+  'Circulación': { leader: 'Pedro Gómez', objectives: [] },
+  'Comercial': { leader: 'Ana Torres', objectives: SEED },
+  'Contabilidad y Cobranza': { leader: 'Laura Ramos', objectives: [] },
+  'Mercadotecnia': { leader: 'Lucía Méndez', objectives: [] },
+  'Operaciones': { leader: 'Fátima Zúñiga', objectives: [] },
+  'Paquetería': { leader: 'Raúl Silva', objectives: [] },
+  'Publicidad': { leader: 'Edith Sánchez', objectives: [] },
+  'Redacción': { leader: 'Jorge Morales', objectives: [] },
+  'Sistemas': { leader: 'David Castro', objectives: [] },
+  'Suscripciones': { leader: 'Elena Vega', objectives: [] }
 };
 
-let activeCellKey = null;
-let activeLabel = '';
+// Comentarios por celda: clave "RC|semana"
+const COMMENTS = {
+  '1.1|4': [
+    { id: 101, author: 'Ana Torres', time: '27 oct, 10:30', text: 'Se validaron las facturas pendientes con clientes clave para el cierre de S4.', assignedTo: 'Ana Torres', done: false },
+    { id: 102, author: 'Marco', time: '27 oct, 12:15', text: '@Luis Ramos ¿ya cerraste la aclaración de saldo de agencias?', assignedTo: null, done: false }
+  ],
+  '1.1|3': [
+    { id: 90, author: 'Ana Torres', time: '20 oct, 17:40', text: 'Confirmar facturas de Q3 con cliente de cuenta principal.', assignedTo: null, done: true, doneBy: 'Luis Ramos', doneAt: '22 oct, 11:10' }
+  ],
+  '1.4|4': [
+    { id: 201, author: 'Marta Silva', time: '25 oct, 09:00', text: 'Pendiente de revisión del plan de inversión con Dirección General.', assignedTo: null, done: false }
+  ]
+};
 
-// Selector de equipo
-const teamBtn = document.getElementById('teamSelectBtn');
-const teamMenu = document.getElementById('teamMenu');
-const teamName = document.getElementById('teamName');
-const teamLeader = document.getElementById('teamLeader');
-const demoBanner = document.getElementById('demoBanner');
+// Historial de cambios (valores y de RC)
+const HISTORY = [
+  { type: 'valor', rc: '1.1', w: 4, from: 325000, to: 332000, by: 'Luis Ramos', at: '27 oct, 09:12', motivo: '' },
+  { type: 'valor', rc: '1.1', w: 3, from: 318000, to: 325000, by: 'Luis Ramos', at: '20 oct, 18:05', motivo: '' },
+  { type: 'valor', rc: '1.1', w: 2, from: 312000, to: 318000, by: 'Luis Ramos', at: '13 oct, 18:00', motivo: '' }
+];
 
-teamBtn.addEventListener('click', (e) => {
-  e.stopPropagation();
-  teamMenu.classList.toggle('show');
-});
-document.addEventListener('click', () => teamMenu.classList.remove('show'));
+/* ===== HELPERS ===== */
+const $ = id => document.getElementById(id);
+const objs = () => TEAMS[team].objectives;
+const allRcs = () => objs().flatMap(o => o.rcs);
+const findRc = id => allRcs().find(r => r.id === id);
+const clamp = (v, a = 0, b = 100) => Math.min(b, Math.max(a, v));
+const avg = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0;
+const cls = v => v >= 70 ? 'cg' : v >= 60 ? 'cy' : 'cr';
+const initials = n => n.split(' ').filter(Boolean).slice(0, 2).map(p => p[0].toUpperCase()).join('');
+const canEdit = () => ROLE === 'ops' || TEST_OPEN;
 
-document.querySelectorAll('.sel-item').forEach(item => {
-  item.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const team = item.getAttribute('data-team');
-    teamName.innerText = team;
-    teamLeader.innerText = item.getAttribute('data-leader');
-    teamMenu.classList.remove('show');
-    demoBanner.style.display = team !== 'Comercial' ? 'flex' : 'none';
-  });
-});
+function fmt(v, unit) {
+  if (v == null) return '—';
+  if (unit === '$') return '$' + Math.round(v).toLocaleString('es-MX');
+  if (unit === '%') return (+v.toFixed(1)) + '%';
+  return (+v.toFixed(1)).toLocaleString('es-MX');
+}
+const pctRaw = (r, v) => { const d = r.meta - r.inicio; return d === 0 ? 0 : (v - r.inicio) / d * 100; };
+const actual = r => r.weeks[CUR - 1] ?? r.inicio;
+const cumpl = r => clamp(pctRaw(r, actual(r)));
+const conf = r => clamp(pctRaw(r, r.inicio + (actual(r) - r.inicio) * TOTAL / CUR));
+const objCumpl = o => avg(o.rcs.map(cumpl));
+const objConf = o => avg(o.rcs.map(conf));
+const ESP = Math.round(ESP_PCT * CUR / TOTAL * 100);
+const ELAPSED = Math.round(CUR / TOTAL * 100);
 
-// Modal y drawer
-const overlay = document.getElementById('overlay');
-const modalRegister = document.getElementById('modalRegister');
-const drawerComments = document.getElementById('drawerComments');
-
-document.getElementById('btnRegister').addEventListener('click', () => {
-  overlay.classList.add('show');
-  modalRegister.classList.add('show');
-});
-
+function toast(msg) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), 2600);
+}
+function guard(fn) { canEdit() ? fn() : toast('Solo Operaciones puede editar ORCs. Activa el modo prueba al entrar para probar.'); }
+function openModal(title, html) {
+  $('mTitle').textContent = title;
+  $('mBody').innerHTML = html;
+  $('ov').classList.add('show');
+  $('modal').classList.add('show');
+}
 function closeAll() {
-  overlay.classList.remove('show');
-  modalRegister.classList.remove('show');
-  drawerComments.classList.remove('open');
+  $('ov').classList.remove('show');
+  $('modal').classList.remove('show');
+  $('drawer').classList.remove('open');
+}
+function closeModal() { closeAll(); }
+
+/* ===== LOGIN / NAVEGACIÓN ===== */
+function enter() {
+  ROLE = $('role').value;
+  TEST_OPEN = $('testOpen').checked;
+  USER = ROLE === 'ops' ? 'Fátima Zúñiga' : 'Marco';
+  $('login').classList.add('hide');
+  $('app').classList.remove('hide');
+  $('userName').textContent = USER;
+  $('userAv').textContent = initials(USER);
+  $('userRole').textContent = ROLE === 'ops' ? 'Operaciones · editor' : 'Usuario de equipo';
+  view('orcs');
+}
+function logout() {
+  $('app').classList.add('hide');
+  $('login').classList.remove('hide');
+  closeAll();
+}
+const PH = {
+  emp: 'ORCs empresariales: fuera de este prototipo. Se diseña en la siguiente etapa.',
+  eq: 'Equipos: fuera de este prototipo.',
+  rev: 'Revisión de cumplimiento: fuera de este prototipo.'
+};
+function view(v) {
+  document.querySelectorAll('.ni').forEach(n => n.classList.toggle('on', n.dataset.v === v));
+  $('teamView').classList.toggle('hide', v !== 'orcs');
+  $('ph').classList.toggle('hide', v === 'orcs');
+  $('ph').textContent = PH[v] || '';
+  if (v === 'orcs') renderAll();
+}
+function setTeam(v) { team = v; renderAll(); }
+
+/* ===== RENDER ===== */
+function renderAll() {
+  renderHeader();
+  renderTools();
+  renderTable();
+  $('banner').classList.toggle('hide', team === 'Comercial');
+  $('banner').innerHTML = '⚠️ <b>Datos de prueba:</b> solo Comercial tiene datos cargados. Puedes crear objetivos y RC aquí para probar.';
 }
 
-// Abrir panel de comentarios de una celda
-function openComments(krLabel, weekLabel, key) {
-  activeCellKey = key;
-  activeLabel = `${krLabel} · ${weekLabel}`;
-  if (!commentsData[key]) commentsData[key] = { open: [], completed: [] };
-  document.getElementById('drawerKrTitle').innerText = `Comentarios · ${krLabel} · ${weekLabel}`;
-  document.getElementById('drawerWeekTitle').innerText = 'Hilo de la celda · se conserva el registro de completados';
-  renderComments();
-  drawerComments.classList.add('open');
-  overlay.classList.add('show');
+function renderHeader() {
+  const os = objs(), rs = allRcs();
+  const av = Math.round(avg(os.map(objCumpl)));
+  const dv = av - ESP;
+  const pr = Math.round(avg(rs.map(conf)));
+  const opts = Object.keys(TEAMS).map(t => `<option ${t === team ? 'selected' : ''}>${t}</option>`).join('');
+  $('hdr').innerHTML = `
+    <div class="grp">
+      <div class="mi"><span class="ml">Equipo:</span><select class="team" onchange="setTeam(this.value)">${opts}</select></div>
+      <div class="mi"><span class="ml">Líder:</span><b>${TEAMS[team].leader}</b></div>
+      <div class="mi"><span class="ml">Avance del equipo:</span><b>${av}%</b></div>
+      <div class="mi"><div><span class="ml">Esperado hoy:</span> <b>${ESP}%</b><span class="sub">Expectativa 70% = 70% del tiempo transcurrido (${ELAPSED}%)</span></div></div>
+      <div class="mi"><span class="ml">Desviación:</span><span class="chip ${dv >= 0 ? 'cg' : 'cr'}">${dv >= 0 ? '+' : ''}${dv} pp</span></div>
+      <div class="mi"><span class="ml">Pronóstico de cierre:</span><span class="chip ${cls(pr)}">${pr}%</span></div>
+    </div>
+    <div class="grp">
+      <span class="ml">Quedan 64 días · ${ELAPSED}% transcurrido · S${CUR}/13</span>
+      <div class="bar"><i style="width:${ELAPSED}%"></i></div>
+      <span class="ml sep">Última actualización: <b style="color:var(--tx)">27 oct</b></span>
+    </div>`;
 }
 
-function assignOptions(current) {
-  return `<option value="">Asignar a...</option>` +
-    ASSIGNABLE.map(p => `<option value="${p}" ${current === p ? 'selected' : ''}>${p}</option>`).join('');
+function renderTools() {
+  const e = canEdit(), has = objs().length > 0;
+  $('tools').innerHTML = `
+    <div class="leg"><b>Leyenda:</b>
+      <span class="chip cr">Rojo &lt; 60%</span>
+      <span class="chip cy">Amarillo 60–69%</span>
+      <span class="chip cg">Verde ≥ 70%</span>
+    </div>
+    <div class="acts">
+      <button class="btn ${e ? '' : 'dis'}" onclick="guard(newObjForm)">+ Nuevo objetivo</button>
+      <button class="btn ${e && has ? '' : 'dis'}" onclick="guard(()=>rcForm('new'))">+ Nuevo RC</button>
+      <button class="btn" onclick="toast('Exportar a Excel: pendiente en el prototipo')">Exportar a Excel</button>
+      <button class="btn p" onclick="registerForm()">+ Registrar avance</button>
+    </div>`;
 }
 
-function renderComments() {
-  if (!activeCellKey) return;
-  const data = commentsData[activeCellKey];
+function renderTable() {
+  const os = objs();
+  const cols = '<colgroup><col style="width:40px"><col style="width:250px"><col style="width:210px"><col style="width:150px"><col style="width:90px"><col style="width:100px"><col style="width:90px"><col style="width:130px"><col style="width:90px">' + '<col style="width:88px">'.repeat(TOTAL) + '</colgroup>';
+  let head = '<thead><tr><th class="s c0">N°</th><th class="s c1">Resultado clave</th><th class="s c2">Metodología de medición</th><th>Responsable</th><th class="r">Inicio</th><th class="r">Meta</th><th class="r">Actual</th><th class="ctr">Cumplimiento</th><th class="ctr">Confianza</th>';
+  for (let i = 0; i < TOTAL; i++) {
+    const isCur = i + 1 === CUR;
+    head += `<th class="w${isCur ? ' cur' : ''}"><b>S${i + 1}</b><span>${WEEK_DATES[i]}</span>${isCur ? '<em>ACTUAL</em>' : ''}</th>`;
+  }
+  head += '</tr></thead>';
 
-  // Abiertos
-  const openContainer = document.getElementById('openCommentsList');
-  openContainer.innerHTML = '';
-  if (data.open.length === 0) {
-    openContainer.innerHTML = '<div style="font-size:12px;color:var(--sub);font-style:italic">No hay comentarios abiertos en esta celda.</div>';
+  let body = '';
+  if (!os.length) {
+    body = `<tr><td colspan="22" class="empty">Este equipo aún no tiene objetivos.
+      ${canEdit() ? '<br><br><button class="btn p" onclick="newObjForm()">+ Crear objetivo</button>' : '<br>Solo Operaciones puede crear objetivos.'}</td></tr>`;
   } else {
-    data.open.forEach(item => {
-      const isAssigned = !!item.assignedTo;
-      const card = document.createElement('div');
-      card.className = 'comment-card';
-      card.innerHTML = `
-        <div class="comment-head">
-          <span class="comment-author">${item.author}</span>
-          <span class="comment-time">${item.time}</span>
-        </div>
-        <div class="comment-text">${item.text}</div>
-        <div class="comment-actions">
-          <span class="comment-status ${isAssigned ? 'is-assigned' : ''}">${isAssigned ? 'Asignado a ' + item.assignedTo : 'Sin asignar'}</span>
-          <div style="display:flex;align-items:center;gap:6px">
-            <select class="assign-select" onchange="assignComment(${item.id}, this.value)">${assignOptions(item.assignedTo)}</select>
-            <button class="btn-link" onclick="completeComment(${item.id})">Marcar como completado</button>
-          </div>
-        </div>`;
-      openContainer.appendChild(card);
+    os.forEach((o, oi) => {
+      const oc = Math.round(objCumpl(o)), ocf = Math.round(objConf(o));
+      body += `<tr class="ob"><td class="s c0"><b>${oi + 1}</b></td><td class="s c1" colspan="2"><div class="ot">${o.title}</div></td>
+        <td></td><td></td><td></td><td></td>
+        <td class="ctr"><b>${oc}%</b></td><td class="ctr"><span class="chip ${cls(ocf)}">${ocf}%</span></td>${'<td></td>'.repeat(TOTAL)}</tr>`;
+      o.rcs.forEach(r => body += rcRow(r));
     });
   }
-
-  // Completados
-  const completedContainer = document.getElementById('completedCommentsList');
-  completedContainer.innerHTML = '';
-  document.getElementById('completedHeaderTitle').innerText = `Completados (${data.completed.length})`;
-  data.completed.forEach(item => {
-    const card = document.createElement('div');
-    card.className = 'comment-card completed';
-    card.innerHTML = `
-      <div class="comment-head">
-        <span class="comment-author">${item.author}</span>
-        <span class="comment-time">${item.time}</span>
-      </div>
-      <div class="comment-text">${item.text}</div>
-      <div class="comment-status">Completado por ${item.completedBy} · ${item.completedAt}</div>`;
-    completedContainer.appendChild(card);
-  });
-
-  updateCellBadge(activeCellKey);
+  $('tbl').innerHTML = cols + head + '<tbody>' + body + '</tbody>';
 }
 
-function assignComment(id, person) {
-  const item = commentsData[activeCellKey].open.find(c => c.id === id);
-  if (item) {
-    item.assignedTo = person || null;
-    renderComments();
+function bub(rcId, w) {
+  const list = COMMENTS[rcId + '|' + w] || [];
+  if (!list.length) return '';
+  const open = list.filter(c => !c.done);
+  if (!open.length) {
+    return `<span class="bub done" onclick="event.stopPropagation();openDrawer('${rcId}',${w})" title="Comentarios completados">✓</span>`;
   }
+  const as = open.some(c => c.assignedTo) ? 'assigned' : '';
+  return `<span class="bub ${as}" onclick="event.stopPropagation();openDrawer('${rcId}',${w})" title="Comentarios abiertos">${ICON}${open.length}</span>`;
 }
 
-function completeComment(id) {
-  const data = commentsData[activeCellKey];
-  const idx = data.open.findIndex(c => c.id === id);
-  if (idx === -1) return;
-  const [item] = data.open.splice(idx, 1);
-  data.completed.push({
-    id: item.id,
-    author: item.author,
-    time: item.time,
-    text: item.text,
-    completedBy: CURRENT_USER,
-    completedAt: DEMO_NOW
+function rcRow(r) {
+  const c = Math.round(cumpl(r)), cf = conf(r), a = actual(r);
+  const pp = c - ESP;
+  const arrow = r.meta >= r.inicio ? '<span class="up">↑</span>' : '<span class="dn">↓</span>';
+  const e = canEdit();
+  let wk = '';
+  for (let w = 1; w <= TOTAL; w++) {
+    if (w > CUR) { wk += '<td class="w fu"></td>'; continue; }
+    const v = r.weeks[w - 1];
+    wk += `<td class="w${w === CUR ? ' cur' : ''}" onclick="cellClick('${r.id}',${w},this)">${bub(r.id, w)}<span class="wv">${v == null ? '—' : fmt(v, r.unit)}</span></td>`;
+  }
+  return `<tr class="kr">
+    <td class="s c0">${r.id}</td>
+    <td class="s c1"><div class="kt">${r.title}</div><button class="pen ${e ? '' : 'dis'}" onclick="guard(()=>rcForm('edit','${r.id}'))">✎ Editar RC</button></td>
+    <td class="s c2"><div class="km">${r.method}</div></td>
+    <td><div class="rc"><span class="am">${initials(r.owner)}</span>${r.owner}</div></td>
+    <td class="r">${fmt(r.inicio, r.unit)}</td>
+    <td class="r">${arrow} ${fmt(r.meta, r.unit)}</td>
+    <td class="r b">${fmt(a, r.unit)}</td>
+    <td class="ctr"><div class="cw"><div class="tk"><u style="left:${ESP}%"></u><i style="width:${clamp(c)}%"></i></div><div class="ct"><b>${c}%</b><span class="${pp >= 0 ? 'gp' : 'gn'}">${pp >= 0 ? '+' : ''}${pp} pp</span></div></div></td>
+    <td class="ctr"><span class="chip ${cls(cf)}">${Math.round(cf)}%</span></td>
+    ${wk}
+  </tr>`;
+}
+
+/* ===== REGISTRO DE AVANCE ===== */
+// 1) Captura directa en la celda (semanas ya transcurridas)
+function cellClick(rcId, w, td) {
+  if (w > CUR || td.querySelector('input')) return;
+  const r = findRc(rcId);
+  const inp = document.createElement('input');
+  inp.type = 'number'; inp.step = 'any'; inp.className = 'cin';
+  inp.value = r.weeks[w - 1] ?? '';
+  td.innerHTML = '';
+  td.appendChild(inp);
+  inp.focus(); inp.select();
+  inp.addEventListener('keydown', e => {
+    if (e.key === 'Enter') saveValue(rcId, w, inp.value);
+    if (e.key === 'Escape') renderTable();
   });
-  renderComments();
+  inp.addEventListener('blur', () => setTimeout(renderTable, 0));
+}
+function saveValue(rcId, w, raw) {
+  if (raw.trim() === '') { renderTable(); return; }
+  const v = parseFloat(raw);
+  if (isNaN(v)) { toast('Escribe un número'); renderTable(); return; }
+  const r = findRc(rcId);
+  const old = r.weeks[w - 1];
+  if (old === v) { renderTable(); return; }
+  r.weeks[w - 1] = v;
+  HISTORY.unshift({ type: 'valor', rc: rcId, w, from: old, to: v, by: USER, at: DEMO_NOW, motivo: '' });
+  toast(`Avance guardado · ${rcId} S${w}`);
+  renderAll();
 }
 
-function postNewComment() {
-  const textarea = document.getElementById('newCommentText');
-  const text = textarea.value.trim();
-  if (!text || !activeCellKey) return;
-  commentsData[activeCellKey].open.push({
-    id: Date.now(),
-    author: CURRENT_USER,
-    time: DEMO_NOW,
-    text: text,
-    assignedTo: null
-  });
-  textarea.value = '';
-  renderComments();
+// 2) Formulario de registro
+function registerForm() {
+  const rs = allRcs();
+  if (!rs.length) { toast('No hay resultados clave en este equipo'); return; }
+  const ws = [...Array(CUR)].map((_, i) => `<option value="${i + 1}" ${i + 1 === CUR ? 'selected' : ''}>S${i + 1} · ${WEEK_DATES[i]}</option>`).join('');
+  openModal('Registrar avance', `
+    <label class="fl">Resultado clave
+      <select id="regRc" onchange="updReg()">${rs.map(r => `<option value="${r.id}">${r.id} · ${r.title}</option>`).join('')}</select>
+    </label>
+    <div class="row2">
+      <label class="fl">Semana<select id="regW" onchange="updReg()">${ws}</select></label>
+      <label class="fl">Nuevo valor<input id="regV" type="number" step="any" oninput="updReg()" placeholder="Escribe el valor"></label>
+    </div>
+    <div class="hint" id="regCur" style="margin:-4px 0 10px"></div>
+    <div class="prev" id="regPrev"></div>
+    <label class="fl">Comentario (opcional)<textarea id="regC" rows="2" placeholder="Por qué cambió o de dónde sale el dato"></textarea></label>
+    <div class="mf"><button class="btn" onclick="closeModal()">Cancelar</button><button class="btn p" onclick="saveRegister()">Guardar avance</button></div>`);
+  updReg();
+}
+function updReg() {
+  const r = findRc($('regRc').value);
+  const w = +$('regW').value;
+  const cur = r.weeks[w - 1];
+  $('regCur').textContent = 'Valor actual en S' + w + ': ' + (cur == null ? 'sin registro' : fmt(cur, r.unit));
+  const v = parseFloat($('regV').value);
+  $('regPrev').textContent = isNaN(v)
+    ? 'Escribe el valor para ver el avance que quedaría.'
+    : `Con ${fmt(v, r.unit)} el cumplimiento de ${r.id} sería ${Math.round(clamp(pctRaw(r, v)))}%.`;
+}
+function saveRegister() {
+  const r = findRc($('regRc').value), w = +$('regW').value, v = parseFloat($('regV').value);
+  if (isNaN(v)) { toast('Escribe el valor'); return; }
+  const old = r.weeks[w - 1];
+  r.weeks[w - 1] = v;
+  HISTORY.unshift({ type: 'valor', rc: r.id, w, from: old, to: v, by: USER, at: DEMO_NOW, motivo: '' });
+  const txt = $('regC').value.trim();
+  if (txt) addComment(r.id, w, txt);
+  closeModal();
+  toast(`Avance registrado · ${r.id} S${w}`);
+  renderAll();
 }
 
-function toggleCompleted() {
-  const list = document.getElementById('completedCommentsList');
-  const arrow = document.getElementById('completedArrow');
-  list.classList.toggle('show');
-  arrow.innerText = list.classList.contains('show') ? '▲' : '▼';
+/* ===== CREAR / EDITAR ===== */
+function newObjForm() {
+  openModal('Nuevo objetivo', `
+    <label class="fl">Título del objetivo<input id="oTitle" placeholder="Ej. Mejorar la satisfacción de clientes"></label>
+    <div class="mf"><button class="btn" onclick="closeModal()">Cancelar</button><button class="btn p" onclick="saveObj()">Crear objetivo</button></div>`);
+}
+function saveObj() {
+  const t = $('oTitle').value.trim();
+  if (!t) { toast('Escribe el título del objetivo'); return; }
+  objs().push({ title: t, rcs: [] });
+  closeModal();
+  toast('Objetivo creado');
+  renderAll();
 }
 
-// Burbuja en la tabla: número de abiertos; verde si hay alguno asignado; ✓ si solo hay completados
-function updateCellBadge(key) {
-  const bub = document.getElementById(`bub-${key}`);
-  const data = commentsData[key];
-  if (!bub || !data) return;
+function rcForm(mode, rcId) {
+  const r = mode === 'edit' ? findRc(rcId) : null;
+  const os = objs();
+  if (!r && !os.length) { toast('Primero crea un objetivo'); return; }
+  const objField = r ? '' : `<label class="fl">Objetivo<select id="fObj">${os.map((o, i) => `<option value="${i}">${i + 1}. ${o.title}</option>`).join('')}</select></label>`;
+  const unitOpts = [['$', 'Moneda'], ['%', 'Porcentaje'], ['num', 'Número']]
+    .map(([k, l]) => `<label><input type="radio" name="fUnit" value="${k}" ${(r ? r.unit : 'num') === k ? 'checked' : ''} onchange="prevRc()"> ${l}</label>`).join('');
+  const motivo = r ? `<label class="fl">Motivo del cambio <span class="hint">(obligatorio si cambias inicio o meta)</span><textarea id="fMot" rows="2"></textarea></label>` : '';
+  openModal(r ? `Editar ${r.id}` : 'Nuevo resultado clave', `
+    ${objField}
+    <label class="fl">Nombre del resultado clave<input id="fName" value="${r ? r.title : ''}" placeholder="Ej. Reducir la cartera vencida a $1.5M"></label>
+    <label class="fl">Metodología de medición<input id="fMet" value="${r ? r.method : ''}" placeholder="Ej. Cartera vencida ÷ cartera total"></label>
+    <div class="row2">
+      <label class="fl">Responsable<select id="fOwn">${PEOPLE.map(p => `<option ${r && r.owner === p ? 'selected' : ''}>${p}</option>`).join('')}</select></label>
+      <div class="fl">Tipo de valor<div class="seg">${unitOpts}</div></div>
+    </div>
+    <div class="row2">
+      <label class="fl">Inicio<input id="fIni" type="number" step="any" value="${r ? r.inicio : ''}" oninput="prevRc()"></label>
+      <label class="fl">Meta<input id="fMeta" type="number" step="any" value="${r ? r.meta : ''}" oninput="prevRc()"></label>
+    </div>
+    ${motivo}
+    <div class="prev" id="fPrev"></div>
+    <div class="mf">
+      <button class="btn" onclick="closeModal()">Cancelar</button>
+      <button class="btn p" onclick="saveRc('${mode}','${rcId || ''}')">${r ? 'Guardar cambios' : 'Crear resultado clave'}</button>
+    </div>`);
+  prevRc();
+}
+function prevRc() {
+  const u = document.querySelector('input[name=fUnit]:checked')?.value || 'num';
+  const ini = parseFloat($('fIni').value), meta = parseFloat($('fMeta').value);
+  if (isNaN(ini) || isNaN(meta)) { $('fPrev').textContent = 'Escribe inicio y meta para ver cómo se calcula el avance.'; return; }
+  if (ini === meta) { $('fPrev').textContent = 'La meta debe ser distinta del inicio.'; return; }
+  const sube = meta > ini;
+  const mid = ini + (meta - ini) / 2;
+  $('fPrev').innerHTML = `<b>Así se calcula el avance:</b> la meta ${sube ? 'sube' : 'baja'} de ${fmt(ini, u)} a ${fmt(meta, u)}.<br>
+    Si el valor llega a ${fmt(mid, u)} → <b>50%</b>. Si llega a ${fmt(meta, u)} → <b>100%</b>. Cualquier valor más allá de la meta cuenta como 100%.`;
+}
+function saveRc(mode, rcId) {
+  const name = $('fName').value.trim();
+  const met = $('fMet').value.trim();
+  const own = $('fOwn').value;
+  const unit = document.querySelector('input[name=fUnit]:checked')?.value || 'num';
+  const ini = parseFloat($('fIni').value), meta = parseFloat($('fMeta').value);
+  if (!name) { toast('Escribe el nombre del resultado clave'); return; }
+  if (isNaN(ini) || isNaN(meta)) { toast('Escribe inicio y meta'); return; }
+  if (ini === meta) { toast('La meta debe ser distinta del inicio'); return; }
 
-  const openCount = data.open.length;
-  const doneCount = data.completed.length;
-  const cnt = bub.querySelector('.cnt');
-  bub.classList.remove('assigned', 'done');
-
-  if (openCount > 0) {
-    cnt.innerText = openCount;
-    if (data.open.some(c => c.assignedTo)) bub.classList.add('assigned');
-    bub.style.display = 'flex';
-  } else if (doneCount > 0) {
-    cnt.innerText = '✓';
-    bub.classList.add('done');
-    bub.style.display = 'flex';
+  if (mode === 'edit') {
+    const r = findRc(rcId);
+    const mot = $('fMot').value.trim();
+    const baseChanged = ini !== r.inicio || meta !== r.meta;
+    if (baseChanged && !mot) { toast('Escribe el motivo del cambio de inicio o meta'); return; }
+    const cambios = [];
+    if (r.title !== name) cambios.push('nombre');
+    if (r.method !== met) cambios.push('metodología');
+    if (r.owner !== own) cambios.push(`responsable: ${r.owner} → ${own}`);
+    if (r.unit !== unit) cambios.push('tipo de valor');
+    if (r.inicio !== ini) cambios.push(`inicio: ${fmt(r.inicio, r.unit)} → ${fmt(ini, unit)}`);
+    if (r.meta !== meta) cambios.push(`meta: ${fmt(r.meta, r.unit)} → ${fmt(meta, unit)}`);
+    if (!cambios.length) { closeModal(); return; }
+    Object.assign(r, { title: name, method: met, owner: own, unit, inicio: ini, meta });
+    HISTORY.unshift({ type: 'rc', rc: r.id, cambios: cambios.join(' · '), by: USER, at: DEMO_NOW, motivo: mot });
+    closeModal();
+    toast('Resultado clave actualizado');
   } else {
-    bub.style.display = 'none';
+    const oi = +$('fObj').value;
+    const o = objs()[oi];
+    const id = `${oi + 1}.${o.rcs.length + 1}`;
+    o.rcs.push({ id, title: name, method: met, owner: own, unit, inicio: ini, meta, weeks: Array(TOTAL).fill(null) });
+    HISTORY.unshift({ type: 'rc', rc: id, cambios: `creado: ${name}`, by: USER, at: DEMO_NOW, motivo: '' });
+    closeModal();
+    toast(`Resultado clave ${id} creado`);
   }
+  renderAll();
 }
 
-// Inicializa todas las burbujas al cargar
-Object.keys(commentsData).forEach(updateCellBadge);
+/* ===== COMENTARIOS E HISTORIAL (DRAWER) ===== */
+function addComment(rcId, w, text) {
+  const key = rcId + '|' + w;
+  COMMENTS[key] = COMMENTS[key] || [];
+  COMMENTS[key].push({ id: ++NEXT_ID, author: USER, time: DEMO_NOW, text, assignedTo: null, done: false });
+}
+function openDrawer(rcId, w) {
+  DRAW = { rcId, w };
+  renderDrawer();
+  $('drawer').classList.add('open');
+  $('ov').classList.add('show');
+}
+function currentList() { return COMMENTS[DRAW.rcId + '|' + DRAW.w] || []; }
+function renderDrawer() {
+  const r = findRc(DRAW.rcId);
+  const list = currentList();
+  const open = list.filter(c => !c.done), done = list.filter(c => c.done);
+  $('dTitle').textContent = `Comentarios · ${r.id} · S${DRAW.w} (${WEEK_DATES[DRAW.w - 1]})`;
+  $('dSub').textContent = r.title;
+  $('dOpen').innerHTML = open.length ? open.map(c => `
+    <div class="cc">
+      <div class="cch"><b>${c.author}</b><span>${c.time}</span></div>
+      <div class="cct">${c.text}</div>
+      <div class="cca">
+        <span class="st ${c.assignedTo ? 'as' : ''}">${c.assignedTo ? 'Asignado a ' + c.assignedTo : 'Sin asignar'}</span>
+        <select class="sel-s" onchange="assign(${c.id},this.value)"><option value="">Asignar a…</option>${PEOPLE.map(p => `<option ${c.assignedTo === p ? 'selected' : ''}>${p}</option>`).join('')}</select>
+        <button class="lnk" onclick="complete(${c.id})">Marcar como completado</button>
+      </div>
+    </div>`).join('') : '<div class="muted">No hay comentarios abiertos en esta semana.</div>';
+  $('dDone').innerHTML = done.map(c => `
+    <div class="cc done">
+      <div class="cch"><b>${c.author}</b><span>${c.time}</span></div>
+      <div class="cct">${c.text}</div>
+      <div class="st">Completado por ${c.doneBy} · ${c.doneAt}</div>
+    </div>`).join('') || '<div class="muted">Sin comentarios completados.</div>';
+  $('dDoneTitle').textContent = `Completados (${done.length})`;
+  const hist = HISTORY.filter(h => h.rc === r.id);
+  $('dHist').innerHTML = hist.length ? hist.map(h => h.type === 'valor'
+    ? `<div class="hi"><b>S${h.w}</b> · de ${fmt(h.from, r.unit)} a ${fmt(h.to, r.unit)}<span>${h.by} · ${h.at}</span></div>`
+    : `<div class="hi"><b>Cambio del RC</b> · ${h.cambios}${h.motivo ? `<br><i>Motivo: ${h.motivo}</i>` : ''}<span>${h.by} · ${h.at}</span></div>`
+  ).join('') : '<div class="muted">Sin cambios registrados.</div>';
+}
+function assign(id, person) {
+  const c = currentList().find(x => x.id === id);
+  if (c) c.assignedTo = person || null;
+  renderDrawer();
+  renderTable();
+}
+function complete(id) {
+  const c = currentList().find(x => x.id === id);
+  if (!c) return;
+  c.done = true; c.doneBy = USER; c.doneAt = DEMO_NOW;
+  renderDrawer();
+  renderTable();
+  toast('Comentario completado · queda en el registro');
+}
+function postComment() {
+  const t = $('newComment');
+  const text = t.value.trim();
+  if (!text) return;
+  addComment(DRAW.rcId, DRAW.w, text);
+  t.value = '';
+  renderDrawer();
+  renderTable();
+}
+function toggleDone() {
+  const l = $('dDone');
+  const hidden = l.classList.toggle('hide');
+  $('dArrow').textContent = hidden ? '▼' : '▲';
+}
 </script>
 </body>
 </html>
