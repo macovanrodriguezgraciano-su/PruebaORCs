@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Manual · ORCs prototipo</title>
+<style>
+body{font-family:Inter,-apple-system,Segoe UI,sans-serif;max-width:880px;margin:0 auto;padding:32px 20px;color:#0f172a;line-height:1.6;font-size:15px}
+h1{color:#00A859;margin-bottom:4px}
+h2{margin-top:40px;border-bottom:2px solid #e2e8f0;padding-bottom:6px}
+h3{margin-top:26px}
+.box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px 16px;margin:14px 0}
+.warn{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:12px 16px;margin:14px 0}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0}
+th,td{border:1px solid #e2e8f0;padding:6px 8px;text-align:left;vertical-align:top}
+th{background:#f1f5f9}
+code{background:#f1f5f9;padding:1px 5px;border-radius:4px;font-size:13px}
+a.dl{display:inline-block;background:#00A859;color:#fff;padding:6px 12px;border-radius:6px;text-decoration:none;font-weight:600;margin:4px 4px 4px 0}
+</style>
+</head>
+<body>
+
+<h1>Manual de uso · ORCs (prototipo)</h1>
+<p>Esto es un <b>prototipo de prueba</b>. Sirve para ver cómo se ven las pantallas, probar el flujo y revisar la lógica de cada resultado clave. Nada se guarda al recargar la página.</p>
+
+<div class="warn"><b>Datos ficticios.</b> Los nombres, montos y metas de los ejemplos fueron inventados. No corresponden a la operación real de la empresa.</div>
+
+<h2>Entrar</h2>
+<p>En la pantalla de inicio, pulsa <b>Continuar con Google</b> o usa la opción <b>Solo para prueba</b>:</p>
+<ul>
+  <li><b>Operaciones (editor de ORCs):</b> puede importar, editar la lógica y crear objetivos y RC.</li>
+  <li><b>Usuario de equipo:</b> solo puede registrar avances y comentar.</li>
+  <li><b>Modo prueba:</b> si lo dejas marcado, cualquiera puede editar. Úsalo solo para la prueba.</li>
+</ul>
+
+<h2>Para Operaciones</h2>
+
+<h3>1. Elegir equipo</h3>
+<p>Usa el selector <b>Equipo</b> de la parte superior. Cada equipo tiene sus propios objetivos, RC, días y lógica.</p>
+
+<h3>2. Importar una hoja de equipo</h3>
+<ol>
+  <li>En Google Sheets, abre solo la pestaña del equipo.</li>
+  <li>Ve a <b>Archivo → Descargar → Valores separados por comas (.csv)</b>.</li>
+  <li>En la página, elige el equipo y pulsa <b>⇪ Importar CSV</b>.</li>
+  <li>Sube el archivo o pega su contenido y pulsa <b>Leer y revisar</b>.</li>
+  <li>Revisa la vista previa:
+    <ul>
+      <li>El <b>tipo de valor</b> de cada RC (Número, Porcentaje o Moneda). La hoja no lo indica, la página solo lo sugiere.</li>
+      <li>La lista de <b>filas que no se importaron</b>, con el motivo.</li>
+      <li>Los avisos de <b>numeración repetida</b>.</li>
+    </ul>
+  </li>
+  <li>Escribe los <b>días totales</b> y los <b>días transcurridos</b> del trimestre. Están en la pestaña Resumen de la hoja.</li>
+  <li>Pulsa <b>Importar</b>. Esto reemplaza los objetivos del equipo.</li>
+</ol>
+
+<div class="box"><b>Qué se importa:</b> objetivos, RC, metodología, responsable, inicio, meta y semanas. Cumplimiento, confianza y semáforo se calculan en la página. Ningún RC recibe fórmula al importar: todos usan la estándar hasta que los edites.</div>
+
+<h3>3. Editar la lógica de un RC</h3>
+<p>En la tabla, pulsa <b>✎ Editar RC y lógica</b>. Verás:</p>
+<ul>
+  <li><b>Fórmula de cumplimiento.</b> Variables disponibles: <code>inicio</code>, <code>meta</code>, <code>actual</code>, <code>dias_total</code>, <code>dias_transcurridos</code>, <code>transcurrido</code>.</li>
+  <li><b>Fórmula de confianza.</b> Además: <code>cumplimiento</code>.</li>
+  <li><b>Valor si la fórmula falla.</b> Lo que se muestra si la fórmula da error (normalmente 0, como el <code>SI.ERROR(…, 0)</code> de Sheets).</li>
+  <li><b>Limitar entre 0% y 100%.</b></li>
+  <li><b>Valor actual de prueba</b> y <b>Cumplimiento que muestra el Sheets</b>, para comparar.</li>
+</ul>
+<p>El RC aparece como <span class="chip">lógica propia</span> cuando la fórmula es distinta de la estándar. Con <b>Restablecer a estándar</b> vuelves atrás.</p>
+
+<h3>4. Comparar con el Sheets</h3>
+<p>Escribe en <b>Cumplimiento que muestra el Sheets</b> el número exacto que ves en la celda de cumplimiento de esa fila. Si la página dice <b>✔ Coincide</b>, la lógica está bien. Si dice <b>✖ No coincide</b>, revisa la fórmula.</p>
+
+<h3>5. Ejemplos ya probados (Comercial)</h3>
+<table>
+  <tr><th>RC</th><th>Fórmula de cumplimiento</th><th>Valor de prueba</th><th>Sheets</th></tr>
+  <tr><td>1.1 (meta sube en tramos de 100%)</td><td><code>(min(actual / 100, 1) * 0.7 + max(actual / 100 - 1, 0) * 3) * 100</code></td><td>15</td><td>10.5</td></tr>
+  <tr><td>1.2 (meta sube, inicio &gt; actual)</td><td><code>(actual - inicio) / (meta - inicio) * 100</code></td><td>42950</td><td>0</td></tr>
+</table>
+<p>Para la confianza, en todos los RC de estos ejemplos se usa: <code>min(100, cumplimiento / dias_transcurridos * dias_total)</code>.</p>
+
+<h3>6. Crear objetivos y RC</h3>
+<p>Usa <b>+ Nuevo objetivo</b> y <b>+ Nuevo RC</b>. En el formulario, la vista previa muestra cómo se calcula el avance antes de guardar.</p>
+
+<h3>7. Cambiar inicio o meta</h3>
+<p>Cambiar el inicio o la meta de un RC pide un <b>motivo</b>. Queda registrado en el historial del RC.</p>
+
+<h2>Prueba: descarga los archivos de ejemplo</h2>
+<p>Estos archivos imitan la hoja real de cada equipo, con datos ficticios:</p>
+<p>
+  <a class="dl" href="csv/capital-humano-prueba.csv" download>Descargar Capital Humano (CSV)</a>
+  <a class="dl" href="csv/publicidad-prueba.csv" download>Descargar Publicidad (CSV)</a>
+</p>
+
+<div class="box"><b>Pasos para probar:</b>
+<ol>
+  <li>Entra como <b>Operaciones</b> con modo prueba.</li>
+  <li>Cambia a <b>Capital Humano</b> y pulsa <b>⇪ Importar CSV</b>. Sube el archivo descargado.</li>
+  <li>Resultado esperado: <b>13 RC importables</b>, 0 omitidos, 4 objetivos. Días: 92 totales y 30 transcurridos.</li>
+  <li>Edita el RC 4.2: verás que su meta baja de 100% a 20%. La fórmula estándar da 0%, igual que la hoja.</li>
+  <li>Cambia a <b>Publicidad</b>, importa su archivo. Resultado esperado: <b>21 RC importables</b> y 1 omitido (4.5, por falta de nombre). Verás un aviso de <b>1.5 repetido</b> que se importa como <b>1.5(2)</b>.</li>
+  <li>Revisa el tipo de valor de cada RC antes de importar. Por ejemplo, los RC de moneda pueden aparecer como número.</li>
+</ol>
+</div>
+
+<h2>Tips para traducir fórmulas de Sheets</h2>
+<table>
+  <tr><th>En Sheets</th><th>En la página</th><th>Nota</th></tr>
+  <tr><td><code>BUSCAR(100000000, L9:X9)</code></td><td><code>actual</code> (automático)</td><td>Toma la última semana con dato. Si no hay, usa el inicio.</td></tr>
+  <tr><td><code>SI.ERROR(x, 0)</code></td><td>Campo <b>Valor si la fórmula falla</b></td><td>Ponlo en 0 si Sheets lo tiene en 0.</td></tr>
+  <tr><td><code>MIN(1, x)</code></td><td><code>min(100, x)</code></td><td>La página trabaja en porcentaje (0 a 100), no en fracción.</td></tr>
+  <tr><td><code>G9/F9</code></td><td><code>actual / meta * 100</code></td><td>Solo coincide si el inicio es 0.</td></tr>
+  <tr><td><code>(E9-G9)/(E9-F9)</code> (meta que baja)</td><td><code>(actual - inicio) / (meta - inicio) * 100</code></td><td>Es la misma fórmula, reordenada.</td></tr>
+  <tr><td><code>SI(G9&lt;=1, G9*0.7, ...)</code></td><td>Escribe la regla completa con <code>min</code>, <code>max</code> y <code>+ - * /</code></td><td>Los números fijos (0.7, 3) van dentro de la fórmula.</td></tr>
+  <tr><td>Celda con 65% (formato %)</td><td>65</td><td>La página guarda porcentajes como 65, no como 0.65.</td></tr>
+  <tr><td><code>SPARKLINE(...)</code></td><td>No aplica</td><td>Es solo un gráfico. La barra de la página ya lo hace.</td></tr>
+</table>
+
+<h2>Para usuarios de equipo</h2>
+
+<h3>Registrar avance</h3>
+<ul>
+  <li><b>Desde la celda:</b> haz clic en la semana, escribe el valor y pulsa Enter.</li>
+  <li><b>Desde el botón:</b> pulsa <b>+ Registrar avance</b>, elige el RC, la semana y el valor. La vista previa muestra el cumplimiento que quedaría.</li>
+</ul>
+<p>Solo se puede capturar en semanas ya transcurridas. Las semanas futuras aparecen vacías.</p>
+
+<h3>Comentarios</h3>
+<ul>
+  <li>Haz clic en el ícono de comentarios de una celda para abrir el panel.</li>
+  <li>Escribe un comentario y usa <b>@</b> para mencionar a alguien.</li>
+  <li><b>Asignar:</b> elige a una persona en "Asignar a". La burbuja se pone verde.</li>
+  <li><b>Completar:</b> pulsa "Marcar como completado". El comentario sale de la lista abierta y queda en <b>Completados</b>, con quién lo completó y cuándo.</li>
+</ul>
+
+<h3>Historial</h3>
+<p>Cada RC tiene su historial en el panel lateral: valores anteriores y nuevos, cambios de inicio o meta, cambios de lógica y motivos.</p>
+
+<h2>Qué no funciona todavía</h2>
+<ul>
+  <li>ORCs empresariales, Equipos y Revisión de cumplimiento.</li>
+  <li>Exportar a Excel y la búsqueda.</li>
+  <li>Guardar datos: al recargar la página se pierden.</li>
+  <li>Permisos reales: el login de prueba no protege nada.</li>
+</ul>
+
+</body>
+</html>
